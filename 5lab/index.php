@@ -37,6 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $errors['super'] = !empty($_COOKIE['super_error']);
   $errors['bio'] = !empty($_COOKIE['bio_error']);
   $errors['check-1'] = !empty($_COOKIE['check_error']);
+	// Выдаем сообщения об ошибках.
+//По сути, данный код обрабатывает ситуацию, когда у пользователя есть ошибка в поле "имя" (если значение в $errors['name'] равно true). 
+//Он удаляет соответствующее cookie и добавляет сообщение об ошибке в массив для последующего отображения на веб-странице.
   if ($errors['name']) {
     setcookie('name_error', '', 100000);
     $messages[] = '<div class="error">Заполните имя или у него неверный формат (only English)</div>';
