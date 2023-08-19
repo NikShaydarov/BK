@@ -1,4 +1,5 @@
 <?php
+//Этот код предназначен для обработки данных формы, сохраненных в куки, и вывода сообщений пользователю о результате действий.
 session_start();
 header('Content-Type: text/html; charset=UTF-8');
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
