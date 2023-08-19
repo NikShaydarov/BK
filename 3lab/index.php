@@ -66,7 +66,7 @@ try {
   exit();
   }
   
-  
+  //Этот код выполняет вставку данных в две связанные таблицы, используя значения из предыдущей вставки (переменная $id) в качестве внешнего ключа для связи между таблицами.
   $id = $db->lastInsertId();
   $sppe= $db->prepare("INSERT INTO super SET name=:name, per_id=:person");
   $sppe->bindParam(':person', $id);
