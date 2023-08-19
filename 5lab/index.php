@@ -99,9 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $pass = '9788678';
     $db = new PDO('mysql:host=localhost;dbname=u52935', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
     try{
+	    //Этот запрос выбирает все столбцы из таблицы 'form', где значение столбца 'id' соответствует значению $_SESSION['uid'].
       $get=$db->prepare("SELECT * FROM form WHERE id=?");
       $get->bindParam(1,$_SESSION['uid']);
       $get->execute();
+	    //Результат запроса сохраняется в массиве $inf, и затем код извлекает определенные значения из этого массива и сохраняет их в массиве $values.
       $inf=$get->fetchALL();
       $values['name']=$inf[0]['name'];
       $values['email']=$inf[0]['email'];
@@ -109,7 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       $values['radio-1']=$inf[0]['pol'];
       $values['radio-2']=$inf[0]['limbs'];
       $values['bio']=$inf[0]['bio'];
-
+//Этот запрос выбирает столбец 'name' из таблицы 'super', где значение столбца 'per_id' соответствует значению $_SESSION['uid'].
+//Результат второго запроса сохраняется в массиве $inf2, и затем код проверяет значения в этом массиве и устанавливает соответствующие значения в массиве $values в зависимости от того, какие значения 'name' были найдены.
       $get2=$db->prepare("SELECT name FROM super WHERE per_id=?");
       $get2->bindParam(1,$_SESSION['uid']);
       $get2->execute();
@@ -132,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
     printf('Произведен вход с логином %s', $_SESSION['login'], $_SESSION['uid']);
   }
+	//Общий смысл этого кода - он используется для получения информации из базы данных и установки соответствующих значений в массиве $values
 
   // Включаем содержимое файла form.php.
   // В нем будут доступны переменные $messages, $errors и $values для вывода 
