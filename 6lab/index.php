@@ -2,6 +2,7 @@
 $user = 'u52935';
 $pass = '9788678';
 $db = new PDO('mysql:host=localhost;dbname=u52935', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
+//Запрашивается хэш пароля администратора из базы данных:
 $pass_hash=array();
 try{
   $get=$db->prepare("select pass from admin where user=?");
@@ -11,6 +12,10 @@ try{
 catch(PDOException $e){
   print('Error: '.$e->getMessage());
 }
+//Происходит проверка аутентификации пользователя: Если данные отсутствуют или имя пользователя не равно "admin", или хэш MD5 пароля не совпадает с сохраненным хэшем из базы данных, выполняется следующее:
+//Устанавливается HTTP-статус 401 (Unauthorized).
+//Добавляется заголовок WWW-Authenticate, чтобы запросить у пользователя данные аутентификации.
+//Выводится сообщение об ошибке и прекращается выполнение скрипта.
 if (empty($_SERVER['PHP_AUTH_USER']) ||
       empty($_SERVER['PHP_AUTH_PW']) ||
       $_SERVER['PHP_AUTH_USER'] != 'admin' ||
@@ -23,6 +28,8 @@ if (empty($_SERVER['PHP_AUTH_USER']) ||
 if(empty($_GET['edit_id'])){
   header('Location: admin.php');
 }
+//Этот код создает защищенную административную часть веб-приложения. Пользователь должен будет предоставить 
+//корректные данные аутентификации (имя пользователя и пароль) для доступа к административным функциям.
 header('Content-Type: text/html; charset=UTF-8');
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $messages = array();
