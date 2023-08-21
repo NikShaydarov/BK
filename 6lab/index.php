@@ -106,17 +106,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $db = new PDO('mysql:host=localhost;dbname=u52935', $user, $pass, array(PDO::ATTR_PERSISTENT => true));
   try{
       $id=$_GET['edit_id'];
+	  //Этот запрос выбирает все столбцы из таблицы 'form', где значение столбца 'id' соответствует значению $_SESSION['uid'].
       $get=$db->prepare("SELECT * FROM form WHERE id=?");
       $get->bindParam(1,$id);
       $get->execute();
       $inf=$get->fetchALL();
+	  //Результат запроса сохраняется в массиве $inf, и затем код извлекает определенные значения из этого массива и сохраняет их в массиве $values.
       $values['name']=$inf[0]['name'];
       $values['email']=$inf[0]['email'];
       $values['year']=$inf[0]['year'];
       $values['radio-1']=$inf[0]['pol'];
       $values['radio-2']=$inf[0]['limbs'];
       $values['bio']=$inf[0]['bio'];
-    
+    //Этот запрос выбирает столбец 'name' из таблицы 'super', где значение столбца 'per_id' соответствует значению $_SESSION['uid'].
+//Результат второго запроса сохраняется в массиве $inf2, и затем код проверяет значения в этом массиве и устанавливает соответствующие 
+//значения в массиве $values в зависимости от того, какие значения 'name' были найдены.
       $get2=$db->prepare("SELECT name FROM super WHERE per_id=?");
       $get2->bindParam(1,$id);
       $get2->execute();
